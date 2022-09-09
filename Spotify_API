@@ -1,0 +1,38 @@
+!pip install requests
+import requests 
+import base64
+
+client_id = ' b8cd4626f90041f981e593eb6e44f2d6'
+client_secret = 'b35523c29595467f80deb524c6f15c61'
+
+#Decode the credentials, from string to byte
+client_creds = f"{client_id}:{client_secret}"
+type(client_creds)
+
+
+client_credentials_b46 = base64.b64encode(client_creds.encode())
+
+type(client_creds)
+
+#Token passed data
+token_url = 'https://accounts.spotify.com/api/token'
+auth_method = 'POST'
+
+token_data = {
+    
+    'grant_type': 'client_credentials'
+}
+
+token_headers ={
+ 
+    'authorization':f"basic {client_creds.decode()}"
+}
+
+
+
+r = requests.post(token_url, data=token_data, headers=token_headers)
+print(r.json())
+#valid_request = r.status_code in range(200, 299)
+
+
+#I recieve an error that the client is invalid, I claim that the base64 decoder is not converting the string to byte!
